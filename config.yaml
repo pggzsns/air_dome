@@ -1,0 +1,13 @@
+mqtt:
+  username: y2n5gj7/lua_test
+  password: 2aqAF4o87bm0RsZ5
+  sub_topic: lua/test/data/#
+  broker: y2n5gj7.mqtt.iot.bj.baidubce.com
+  port: 1883
+
+mysql:
+  host: 39.105.3.163
+  port: 3306
+  username: test
+  password: yyy@yxyc.top
+  db: test

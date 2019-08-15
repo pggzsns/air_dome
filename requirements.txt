@@ -1,0 +1,11 @@
+paho-mqtt
+flask
+pymysql
+requests
+zerorpc
+sqlalchemy
+pyyaml
+
+pylint
+pydocstring
+autopep8
