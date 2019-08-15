@@ -6,27 +6,28 @@ from utils import load_config
 from typing import Dict
 from paho.mqtt.client import Client as MQTTClient
 from pymysql.connections import Connection as MysqlConnection
+from .db import MsgORM
 
 
 class MQTTServer(object):
     # 独立运行
 
-    _mysql_client = None
+    # _mysql_client = None
 
-    @classmethod
-    def sql_client(cls) -> MysqlConnection:
-        if not cls._mysql_client:
-            MYSQL_CONFIG = load_config()['mysql']
-            cls._mysql_client = MysqlConnection(
-                host=MYSQL_CONFIG['host'],
-                user=MYSQL_CONFIG['username'],
-                passwd=MYSQL_CONFIG['password'],
-                database=MYSQL_CONFIG['db'],
-                port=MYSQL_CONFIG['port'],
-                cursorclass=pymysql.cursors.DictCursor
-            )
+    # @classmethod
+    # def sql_client(cls) -> MysqlConnection:
+    #     if not cls._mysql_client:
+    #         MYSQL_CONFIG = load_config()['mysql']
+    #         cls._mysql_client = MysqlConnection(
+    #             host=MYSQL_CONFIG['host'],
+    #             user=MYSQL_CONFIG['username'],
+    #             passwd=MYSQL_CONFIG['password'],
+    #             database=MYSQL_CONFIG['db'],
+    #             port=MYSQL_CONFIG['port'],
+    #             cursorclass=pymysql.cursors.DictCursor
+    #         )
 
-        return cls._mysql_client
+    #     return cls._mysql_client
 
     # @classmethod
     # def _client_on_connect(cls):
@@ -74,11 +75,10 @@ class MQTTServer(object):
         return cls._client
 
 
-
-
     # 向终端下发命令
     @classmethod
     def dispatch_action(cls, topic: str, payload: Dict):
+        print(topic, payload)
         cls.client().publish(
             topic=topic,
             payload=json.dumps(payload)
@@ -87,23 +87,12 @@ class MQTTServer(object):
     # 接收消息
     @classmethod
     def _client_on_message(cls, client, userdata, message):
-        msg = (message.payload, 'uet-8')
-        with cls.sql_client().cursor() as cursor:
-            try:
-                data = {
-                    'msg': msg,
-                }
-                cursor.execute(
-                    'INSERT INTO ari202 (`msg`) VALUES (%(msg)s)', data)
-            except Exception:
-                return False
-        cls.sql_client().commit()
-        return True
+        msg = message.payload.decode('utf8')
+        print(msg)
+        MsgORM.save(msg)
+
     @classmethod
     def subscribe(cls):
         cls.client().on_message = cls._client_on_message
-        cls.client().on_message()
         cls.client().subscribe('lua/test/data/123')
 
-
-MQTTServer.subscribe()
