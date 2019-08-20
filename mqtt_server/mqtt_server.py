@@ -89,7 +89,11 @@ class MQTTServer(object):
     def _client_on_message(cls, client, userdata, message):
         msg = message.payload.decode('utf8')
         print(msg)
-        MsgORM.save(msg)
+        # MsgORM.save(msg)
+        print("MSG")
+        requests.post('http://192.168.199.139:8080/test_project', data=msg)
+        print("POST")
+
 
     @classmethod
     def subscribe(cls):

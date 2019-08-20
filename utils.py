@@ -1,11 +1,3 @@
-#! /bin/python
-# utils setting
-#
-# @file: utils
-# @time: 2019/08/07
-# @author: Mori
-#
-
 import json
 import yaml
 

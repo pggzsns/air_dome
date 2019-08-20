@@ -24,17 +24,17 @@ class MsgORM(object):
 
         return cls._mysql_client
 
-    @classmethod
-    def save(cls, msg: str) -> bool:
-        with cls.sql_client().cursor() as cursor:
-            try:
-                data = {
-                    'msg': msg,
-                }
-                cursor.execute(
-                    'INSERT INTO msg (`msg`) VALUES (%(msg)s)', data)
-            except Exception as e:
-                print(e)
-                return False
-        cls.sql_client().commit()
-        return True
+    # @classmethod
+    # def save(cls, msg: str) -> bool:
+    #     with cls.sql_client().cursor() as cursor:
+    #         try:
+    #             data = {
+    #                 'msg': msg,
+    #             }
+    #             cursor.execute(
+    #                 'INSERT INTO ari202 (`msg`) VALUES (%(msg)s)', data)
+    #         except Exception as e:
+    #             print(e)
+    #             return False
+    #     cls.sql_client().commit()
+    #     return True

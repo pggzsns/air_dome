@@ -6,8 +6,8 @@ mqtt:
   port: 1883
 
 mysql:
-  host: 127.0.0.1
+  host: 39.105.3.163
   port: 3306
-  username: root
-  password: MoriMysql
-  db: air202
+  username: yaoyiyao
+  password: yyy@yxyc.top
+  db: test
